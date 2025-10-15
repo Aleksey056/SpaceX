@@ -1,8 +1,9 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import CardLaunch from '../Card/CardLaunch';
 import type { Launch } from '../../type';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { MantineProvider } from '@mantine/core';
+import userEvent from '@testing-library/user-event';
 
 const mockLaunch: Launch = {
 	mission_name: 'Test Mission',
@@ -37,11 +38,12 @@ describe('CardLaunch', () => {
 		expect(screen.getByText('Falcon 9')).toBeInTheDocument();
 	});
 
-	it('Открытие модалки при нажатии на кнопку "See more"', () => {
+	it('Открытие модалки при нажатии на кнопку "See more"', async () => {
 		renderWithMantine(<CardLaunch launchData={mockLaunch} />);
-		const button = screen.getByRole('button', { name: /See more/i })
+		expect(screen.queryByText('Test details')).not.toBeInTheDocument();
+		const button = screen.getByRole('button', { name: /see more/i })
 		expect(button).toBeInTheDocument()
-		fireEvent.click(button);
+		await userEvent.click(button);
 		expect(screen.getByText('Test details')).toBeInTheDocument();
 	});
 });
