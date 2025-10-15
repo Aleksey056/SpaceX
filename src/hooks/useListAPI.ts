@@ -25,7 +25,6 @@ function getListAPI() {
 		const fetchFunc = async () => {
 			const response = await fetch('https://api.spacexdata.com/v3/launches?launch_year=2020');
 			const resJson = await response.json();
-			console.log(resJson)
 			dispatch({
 				type: 'get_list',
 				payload: resJson,

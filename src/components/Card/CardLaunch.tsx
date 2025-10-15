@@ -1,11 +1,37 @@
-import { Card, Image, Text, Button, Modal, Center, Group, Flex } from "@mantine/core"
+import { Card, Image, Text, Button, Flex } from "@mantine/core"
 import type { Launch } from "../../type"
+import Modal from './../Modal/Modal'
+import { useReducer } from "react"
 
 type launchDataType = {
 	launchData: Launch
 }
 
+type StateType = {
+	isOpen: boolean;
+}
+
+type ActionType = { type: 'open' | 'close' }
+
+const reducer = (state: StateType, action: ActionType) => {
+	switch (action.type) {
+		case 'open':
+			return {
+				...state,
+				isOpen: true
+			}
+		case 'close':
+			return {
+				...state,
+				isOpen: false
+			}
+		default: return state
+	}
+}
+
 export default function CardLaunch({ launchData }: launchDataType) {
+
+	const [state, dispatch] = useReducer(reducer, { isOpen: false });
 
 	return (
 		<>
@@ -24,13 +50,10 @@ export default function CardLaunch({ launchData }: launchDataType) {
 						ta='center'>
 						{launchData.rocket?.rocket_name}
 					</Text>
-					<Button radius='md'>See more</Button>
+					<Button radius='md' onClick={() => { dispatch({ type: 'open' }) }}>See more</Button>
 				</Flex>
-
-
 			</Card>
-
-			{/* <Modal></Modal> */}
+			<Modal isOpen={state.isOpen} launchData={launchData} onClose={() => dispatch({ type: 'close' })}></Modal>
 		</>
 	)
 }
