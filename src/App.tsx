@@ -1,14 +1,10 @@
-import { useReducer } from 'react'
-import './App.css'
+import Main from '../src/components/Main/Main'
 
-function App() {
-
-
+export default function App() {
 	return (
 		<>
-			<h1>test</h1>
+			<h2>SpaceX Launches 2020</h2>
+			<Main />
 		</>
 	)
 }
-
-export default App
